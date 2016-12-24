@@ -84,19 +84,19 @@
 
 
 
-<meta name="description" content="最近做了一个项目，用node.js从rabbitmq不断地接受消息，然后通过socket.io来推送给客户端，实现一个实时
-推送的效果。因为要做分布式部署，所以选择用nginx来做socket.io的代理和负载均衡。socket.io官网本身其实提供了nginx做负载均衡的详细配置，但还是记录一下部署的过程，以免以后再用到忘记了:    upstream socketio {       ip_h">
+<meta name="description" content="最近做了一个项目，用node.js从rabbitmq不断地接受消息，然后通过socket.io来推送给客户端，实现一个实时推送
+的效果。因为要做分布式部署，所以选择用nginx来做socket.io的代理和负载均衡。socket.io官网本身其实提供了nginx做负载均衡的详细配置，但还是记录一下部署的过程，以免以后再用到忘记了:    upstream socketio {       ip_h">
 <meta property="og:type" content="article">
 <meta property="og:title" content="socket.io简单分布式部署">
 <meta property="og:url" content="https://rogersanmob.github.io/2016/12/24/socket-io简单分布式部署/index.html">
 <meta property="og:site_name" content="rogersan">
-<meta property="og:description" content="最近做了一个项目，用node.js从rabbitmq不断地接受消息，然后通过socket.io来推送给客户端，实现一个实时
-推送的效果。因为要做分布式部署，所以选择用nginx来做socket.io的代理和负载均衡。socket.io官网本身其实提供了nginx做负载均衡的详细配置，但还是记录一下部署的过程，以免以后再用到忘记了:    upstream socketio {       ip_h">
-<meta property="og:updated_time" content="2016-12-24T03:31:18.911Z">
+<meta property="og:description" content="最近做了一个项目，用node.js从rabbitmq不断地接受消息，然后通过socket.io来推送给客户端，实现一个实时推送
+的效果。因为要做分布式部署，所以选择用nginx来做socket.io的代理和负载均衡。socket.io官网本身其实提供了nginx做负载均衡的详细配置，但还是记录一下部署的过程，以免以后再用到忘记了:    upstream socketio {       ip_h">
+<meta property="og:updated_time" content="2016-12-24T05:23:38.130Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="socket.io简单分布式部署">
-<meta name="twitter:description" content="最近做了一个项目，用node.js从rabbitmq不断地接受消息，然后通过socket.io来推送给客户端，实现一个实时
-推送的效果。因为要做分布式部署，所以选择用nginx来做socket.io的代理和负载均衡。socket.io官网本身其实提供了nginx做负载均衡的详细配置，但还是记录一下部署的过程，以免以后再用到忘记了:    upstream socketio {       ip_h">
+<meta name="twitter:description" content="最近做了一个项目，用node.js从rabbitmq不断地接受消息，然后通过socket.io来推送给客户端，实现一个实时推送
+的效果。因为要做分布式部署，所以选择用nginx来做socket.io的代理和负载均衡。socket.io官网本身其实提供了nginx做负载均衡的详细配置，但还是记录一下部署的过程，以免以后再用到忘记了:    upstream socketio {       ip_h">
 
 
 
@@ -274,8 +274,8 @@
       
 
       
-        <pre><code>最近做了一个项目，用node.js从rabbitmq不断地接受消息，然后通过socket.io来推送给客户端，实现一个实时
-</code></pre><p>推送的效果。因为要做分布式部署，所以选择用nginx来做socket.io的代理和负载均衡。socket.io官网本身其实提供了nginx<br>做负载均衡的详细<a href="http://socket.io/docs/using-multiple-nodes/" target="_blank" rel="external">配置</a>，但还是记录一下部署的过程，以免以后再用<br>到忘记了:<br>    upstream socketio {<br>       ip_hash;<br>       server 127.0.0.1:6307 ;<br>       server 127.0.0.1:6308 ;<br>    }<br>    server {<br>     listen 9999;<br>     server_name localhost;<br>     location / {<br>          proxy_pass <a href="http://socketio" target="_blank" rel="external">http://socketio</a>;<br>          proxy_set_header Upgrade $http_upgrade;<br>          proxy_set_header Connection “upgrade”;<br>          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;<br>          proxy_set_header Host $host;<br>          proxy_set_header X-Real-IP $remote_addr;<br>          proxy_http_version 1.1;<br>        }<br>    }<br>   upstream里放的是实际的node.js的真实地址,ip_hash是指采用根据客户端ip将其请求发送给指定的node,这样只要<br>客户端ip不改变,一直会访问同一个后台,适用于没有做session同步的多后台。serevr中的proxy_pass表示此监听端口的代理指向,这里指向upstream模块。</p>
+        <pre><code>最近做了一个项目，用node.js从rabbitmq不断地接受消息，然后通过socket.io来推送给客户端，实现一个实时推送
+</code></pre><p>的效果。因为要做分布式部署，所以选择用nginx来做socket.io的代理和负载均衡。socket.io官网本身其实提供了nginx<br>做负载均衡的详细<a href="http://socket.io/docs/using-multiple-nodes/" target="_blank" rel="external">配置</a>，但还是记录一下部署的过程，以免以后再用<br>到忘记了:<br>    upstream socketio {<br>       ip_hash;<br>       server 127.0.0.1:6307 ;<br>       server 127.0.0.1:6308 ;<br>    }<br>    server {<br>     listen 9999;<br>     server_name localhost;<br>     location / {<br>          proxy_pass <a href="http://socketio" target="_blank" rel="external">http://socketio</a>;<br>          proxy_set_header Upgrade $http_upgrade;<br>          proxy_set_header Connection “upgrade”;<br>          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;<br>          proxy_set_header Host $host;<br>          proxy_set_header X-Real-IP $remote_addr;<br>          proxy_http_version 1.1;<br>        }<br>    }<br>   upstream里放的是实际的node.js的真实地址,ip_hash是指采用根据客户端ip将其请求发送给指定的node,这样只要<br>客户端ip不改变,一直会访问同一个后台,适用于没有做session同步的多后台。serevr中的proxy_pass表示此监听端口的代理指向,这里指向upstream模块。</p>
 
       
     </div>
